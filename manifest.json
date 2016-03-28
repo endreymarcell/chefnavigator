@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "name": "Chef navigator",
+  "version": "0.1",
+  "description": "Navigate the chef repo on github",
+  "author": "marcell.endrey@prezi.com",
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/prezi/prezi-chef/*"],
+      "js": ["chefnavigator.js"]
+    }
+  ]
+}
