@@ -3,10 +3,9 @@ var recipe_regex = /recipe\[(\w+)(::(\w+))?\]/;
 var include_regex = /include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>(\w+)(::(\w+))?<span class=\"pl-pds\">\"/;
 var chefref_regex = /(role\[(\w+)\]|recipe\[(\w+)(::(\w+))?\]|include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>(\w+)(::(\w+))?<span class=\"pl-pds\">\")/g; // FIXME I'm sure this can be done smarter
 
+var urlbase = /https:\/\/github.com\/.*\/blob\/\w+\//.exec(window.location.href)[0];
 
 function href_for_chefref(chefref) {
-    var urlbase = /https:\/\/github.com\/.*\/blob\/\w+\//.exec(window.location.href)[0];
-
     if (role_regex.test(chefref)) {
         match = role_regex.exec(chefref);
         rolename = match[1];
