@@ -13,8 +13,8 @@ function href_for_chefref(chefref) {
     } 
     else if (recipe_regex.test(chefref)) {
         match = recipe_regex.exec(chefref);
-        cookbook = match[2];
-        recipe = match[4] !== undefined ? match[4] : "default";
+        cookbook = match[1];
+        recipe = match[3] !== undefined ? match[3] : "default";
         return '<a class="cheflink" href="' + urlbase + 'cookbooks/' + cookbook + '/recipes/' + recipe + '.rb">' + chefref + '</a>';
     }
     else if (include_regex.test(chefref)) {
