@@ -1,7 +1,7 @@
-var role_regex = /role\[(\w+)\]/;
-var recipe_regex = /recipe\[(\w+)(::(\w+))?\]/;
-var include_regex = /include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>(\w+)(::(\w+))?<span class=\"pl-pds\">\"/;
-var chefref_regex = /(role\[(\w+)\]|recipe\[(\w+)(::(\w+))?\]|include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>(\w+)(::(\w+))?<span class=\"pl-pds\">\")/g; // FIXME I'm sure this can be done smarter
+var role_regex = /role\[([\w-]+)\]/;
+var recipe_regex = /recipe\[([\w-]+)(::([\w-]+))?\]/;
+var include_regex = /include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\"/;
+var chefref_regex = /(role\[([\w-]+)\]|recipe\[([\w-]+)(::([\w-]+))?\]|include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\")/g; // FIXME I'm sure this can be done smarter
 
 var urlbase = /https:\/\/github.com\/.*\/blob\/\w+\//.exec(window.location.href)[0];
 
