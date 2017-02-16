@@ -1,7 +1,8 @@
 var role_regex = /role\[([\w-]+)\]/;
 var recipe_regex = /recipe\[([\w-]+)(::([\w-]+))?\]/;
 var include_regex = /include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\"/;
-var chefref_regex = /(role\[([\w-]+)\]|recipe\[([\w-]+)(::([\w-]+))?\]|include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\")/g; // FIXME I'm sure this can be done smarter
+var include_regex_single_quote = /include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\'<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\'/;
+var chefref_regex = /(role\[([\w-]+)\]|recipe\[([\w-]+)(::([\w-]+))?\]|include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\"|include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\'<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\')/g; // FIXME I'm sure this can be done smarter
 
 var urlbase = /https:\/\/github.com\/.*\/blob\/\w+\//.exec(window.location.href)[0];
 
@@ -19,6 +20,12 @@ function href_for_chefref(chefref) {
     }
     else if (include_regex.test(chefref)) {
         match = include_regex.exec(chefref);
+        cookbook = match[1];
+        recipe = match[3] !== undefined ? match[3] : "default";
+        return '<a class="cheflink" href="' + urlbase + 'cookbooks/' + cookbook + '/recipes/' + recipe + '.rb">' + chefref + '</a>';
+    }
+    else if (include_regex_single_quote.test(chefref)) {
+        match = include_regex_single_quote.exec(chefref);
         cookbook = match[1];
         recipe = match[3] !== undefined ? match[3] : "default";
         return '<a class="cheflink" href="' + urlbase + 'cookbooks/' + cookbook + '/recipes/' + recipe + '.rb">' + chefref + '</a>';
