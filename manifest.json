@@ -6,7 +6,7 @@
   "author": "marcell.endrey@prezi.com",
   "content_scripts": [
     {
-      "matches": ["https://github.com/prezi/prezi-chef/*"],
+      "matches": ["https://github.com/prezi/prezi-chef/blob/*"],
       "js": ["chefnavigator.js"]
     }
   ]
