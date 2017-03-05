@@ -55,10 +55,7 @@ function bind_click_handler() {
     document.onclick = function(e) {
         var target = e.target.closest('a');
         if (target.href && target.href.indexOf('/blob/') !== -1) {
-            console.log('clicked link!!')
             interval_change_references();
-        } else {
-            console.log('clicked but not link')
         }
     }
 }
@@ -66,11 +63,9 @@ function bind_click_handler() {
 function interval_change_references() {
     var interval = setInterval(function() {
         if (document.getElementsByClassName('file').length) {
-            console.log('yay')
             change_references();
             clearInterval(interval);
         } else {
-            console.log('nah')
         }
     }, 200);
 }
