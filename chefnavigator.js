@@ -4,7 +4,7 @@ var include_regex = /include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">
 var include_regex_single_quote = /include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\'<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\'/;
 var chefref_regex = /(role\[([\w-]+)\]|recipe\[([\w-]+)(::([\w-]+))?\]|include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\"<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\"|include_recipe <span class=\"pl-s\"><span class=\"pl-pds\">\'<\/span>([\w-]+)(::([\w-]+))?<span class=\"pl-pds\">\')/g; // FIXME I'm sure this can be done smarter
 
-var urlbase = /https:\/\/github.com\/.*\/blob\/\w+\//.exec(window.location.href)[0];
+var urlbase_regex = /https:\/\/github.com\/.*\/blob\/\w+\//;
 
 function href_for_chefref(chefref) {
     if (role_regex.test(chefref)) {
@@ -32,8 +32,45 @@ function href_for_chefref(chefref) {
     }
 }
 
+function change_references() {
+    var urlbase_result = urlbase_regex.exec(window.location.href);
+    if (urlbase_result) {
+        urlbase = urlbase_result[0];
+        var file_contents = document.getElementsByClassName('file')[0].innerHTML;
+        var replaced = file_contents.replace(chefref_regex, href_for_chefref);
+        document.getElementsByClassName('file')[0].innerHTML = replaced;
+    }
+}
+
+//
+
 window.onload = function() {
-    var file_contents = document.getElementsByClassName('file')[0].innerHTML;
-    var replaced = file_contents.replace(chefref_regex, href_for_chefref);
-    document.getElementsByClassName('file')[0].innerHTML = replaced;
+    bind_click_handler();
+    if (window.location.href.indexOf('/blob/') !== -1) {
+        change_references();
+    }
+}
+
+function bind_click_handler() {
+    document.onclick = function(e) {
+        var target = e.target.closest('a');
+        if (target.href && target.href.indexOf('/blob/') !== -1) {
+            console.log('clicked link!!')
+            interval_change_references();
+        } else {
+            console.log('clicked but not link')
+        }
+    }
+}
+
+function interval_change_references() {
+    var interval = setInterval(function() {
+        if (document.getElementsByClassName('file').length) {
+            console.log('yay')
+            change_references();
+            clearInterval(interval);
+        } else {
+            console.log('nah')
+        }
+    }, 200);
 }
